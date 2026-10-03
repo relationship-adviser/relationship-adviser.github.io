@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relationship Adviser | Web App</title>
+<meta name="description" content="Relationship Adviser web app by Elite Tech Group: daily love quotes, adviser chats, marriage questions, relationship checklist and couple games.">
+<meta name="theme-color" content="#12030a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#12030a;--card:#24091a;--wine:#6b0f2a;--deep:#3d0818;--rose:#ff7a96;--fg:#f8e9ee;--muted:#b99aa5;--line:#3a1426}
+*{box-sizing:border-box;margin:0}
+html{background:#0a0206}
+body{min-height:100vh;color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:linear-gradient(180deg,#0a0206,#1d0510 45%,#3d0818);background-attachment:fixed;-webkit-tap-highlight-color:transparent}
+#app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;background:rgba(18,3,10,.55)}
+main{flex:1;padding:calc(22px + env(safe-area-inset-top,0)) 18px 18px}
+h1{font-size:1.75rem;line-height:1.2;margin-bottom:14px}
+h2{font-size:1.1rem;margin-bottom:6px}
+.muted{color:var(--muted)}.c{text-align:center}.rose{color:var(--rose)}.b{font-weight:700}
+.card{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;cursor:pointer}
+.card .e{font-size:30px}.card p{color:var(--muted);font-size:.9rem}
+.static{cursor:default;display:block}
+.quote{background:linear-gradient(135deg,var(--wine),var(--deep));border-radius:22px;padding:20px;margin-bottom:18px}
+.qt{font-size:1.2rem;line-height:1.55;font-style:italic;margin:10px 0 14px}
+.row{display:flex;gap:20px}.row a,.link{cursor:pointer}
+.link{color:var(--rose);display:block;margin-top:18px}
+.btn{display:block;width:100%;background:var(--wine);border:1px solid #8d1d3f;color:#fff;font:700 15px inherit;padding:14px;border-radius:14px;cursor:pointer;text-align:center;text-decoration:none}
+.btn.out{background:transparent;border-color:var(--rose);color:var(--rose);margin-top:12px}
+input,textarea{width:100%;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit;margin-bottom:12px;outline:none}
+input:focus,textarea:focus{border-color:var(--rose)}
+.err{color:var(--rose);min-height:1.2em;margin-bottom:8px}
+.auth{padding-top:30px}.bigheart{font-size:84px;text-align:center;line-height:1.2}
+#nav{position:sticky;bottom:0;z-index:5;background:#12030a}nav{display:flex;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}#view{flex:1;display:flex;flex-direction:column}#view>main{flex:1}.ad{padding:8px 18px 14px;text-align:center}#adwrap[hidden]{display:none}.adlabel{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+nav a{flex:1;text-align:center;padding:10px 0 8px;color:var(--muted);font-size:.72rem;cursor:pointer}
+nav a span{display:block;font-size:20px;opacity:.55}nav a.on{color:var(--rose)}nav a.on span{opacity:1}
+.back{cursor:pointer;color:var(--rose);display:inline-block;margin-bottom:10px}
+.item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer}
+.item.done{opacity:.55}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px}
+.chip{white-space:nowrap;padding:8px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);cursor:pointer;font-size:.9rem}
+.chip.on{background:var(--wine)}
+.chat{display:flex;flex-direction:column;height:calc(100vh - 220px);height:calc(100dvh - 220px);min-height:320px}
+.msgs{flex:1;overflow-y:auto;padding:6px 0}
+.m{max-width:86%;padding:11px 14px;border-radius:16px;margin-bottom:10px;border:1px solid var(--line);background:var(--card);white-space:pre-wrap;overflow-wrap:anywhere}
+.m.u{margin-left:auto;background:var(--wine)}
+.send{display:flex;gap:8px;align-items:flex-end}.send input{margin:0}.send .btn{width:auto;padding:13px 18px}
+.gamecard{min-height:200px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--deep);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px;font-size:1.2rem;line-height:1.5}
+.av{width:84px;height:84px;border-radius:50%;background:var(--wine);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;margin:0 auto 10px}
+.small{font-size:.8rem}
+.foot{margin-top:22px;text-align:center}.foot a{color:var(--rose);margin:0 6px;font-size:.88rem}
+</style>
+</head>
+<body>
+<div id="app"><div id="view"></div><div id="adwrap" class="ad" hidden></div><div id="nav"></div></div>
+<noscript><p style="padding:20px;color:#fff">Please enable JavaScript to use Relationship Adviser.</p></noscript>
+<script>
+const QUESTIONS = [
+  'What does a happy marriage look like to you, day to day?',
+  'Do you want children? How many, and when?',
+  'How will we handle money: joint accounts, budgets, savings, debts?',
+  'How do you handle conflict, and what do you need when we disagree?',
+  'What are your career goals, and would you relocate for either of us?',
+  'How involved will our families be in our lives and decisions?',
+  'What are our expectations for household chores and responsibilities?',
+  'What role does faith or spirituality play in your life?',
+  'What are your deal-breakers in a marriage?',
+  'How do you feel about intimacy and what are your expectations?',
+  'Is there any debt, health condition or past matter I should know about?',
+  'How do we make big decisions together?',
+  'How do you feel about friendships with the opposite sex?',
+  'What does loyalty and faithfulness mean to you?',
+  'How will we parent, and what values do we want to pass on?',
+  'How do you recharge: alone time, together time, social time?',
+  'How do you feel about social media and privacy in a relationship?',
+  'What are your biggest fears about marriage?',
+  'How will we support each other through illness, loss or hard times?',
+  'Where do you see us in 5, 10 and 20 years?',
+];
+
+const CONSIDER = [
+  'Do they respect you, especially when you disagree?',
+  'Do you feel safe, emotionally and physically, around them?',
+  'Are their values and life goals compatible with yours?',
+  'Are they honest, even when the truth is uncomfortable?',
+  'Do they take responsibility and apologise sincerely?',
+  'How do they treat family, friends, waiters and strangers?',
+  'Are you yourself around them, or performing?',
+  'Are you ready for a relationship, or just avoiding loneliness?',
+  'Have you healed from your last relationship?',
+  'Do they communicate openly rather than going silent or blowing up?',
+  'Is the effort mutual, or are you doing all the work?',
+  'Do they support your growth, dreams and independence?',
+  'How do they handle money and responsibilities?',
+  'Are there red flags you keep explaining away?',
+  'Do your friends and family have honest concerns? Listen to them.',
+  'Do you share the same intentions: casual, serious, marriage?',
+  'Are they emotionally available and consistent?',
+  'Do you laugh together and enjoy each other\'s company?',
+  'How do they handle stress, anger and disappointment?',
+  'Does your gut feel peaceful or anxious about this person?',
+];
+
+const DEEP_Q = [
+  'What is a small thing I do that makes you feel loved?',
+  'What is your favourite memory of us so far?',
+  'What is one thing you wish we did more often?',
+  'When did you first know you liked me?',
+  'What is something you have never told me?',
+  'What dream have you been afraid to say out loud?',
+  'What do you need most from me when you are stressed?',
+  'What is one thing I could do better, said kindly?',
+  'What does home mean to you?',
+  'What are three things you are grateful for in us?',
+  'What would our perfect lazy Sunday look like?',
+  'What is one fear you have about our future?',
+];
+
+const WYR = [
+  ['Travel the world together for a year', 'Build your dream home together'],
+  ['Know every thought of your partner', 'Never argue again'],
+  ['Cook every meal together', 'Eat out every night'],
+  ['Relive our first date', 'Skip ahead to our 50th anniversary'],
+  ['A surprise party', 'A quiet candlelit dinner'],
+  ['Always text first', 'Always be texted first'],
+  ['A holiday at the beach', 'A holiday in the mountains'],
+  ['Handwritten love letters', 'A song written for you'],
+];
+
+const DATES = [
+  'Cook a new recipe together 🍝', 'Sunset walk, phones off 🌇', 'Movie marathon with homemade popcorn 🍿',
+  'Picnic in a park 🧺', 'Stargazing with a blanket ✨', 'Dance in the living room 💃',
+  'Write letters to your future selves 💌', 'Visit a place you have never been 🗺️', 'Game night with a forfeit 🎲',
+  'Recreate your first date 💘', 'Breakfast in bed 🥞', 'Take couple photos and make an album 📸',
+];
+// Put your backend URL here (see notes). Leave '' to use built-in offline advice.
+// Expected: POST {AI_ENDPOINT}/chat  body {persona, system, messages:[{role,content}]} -> {reply}
+//           POST {AI_ENDPOINT}/quote body {}                                         -> {quote}
+const AI_ENDPOINT = '';
+
+const PERSONAS = {
+  'Love Coach': { emoji: '💘', system: 'You are Love Coach, a warm, practical dating and romance adviser. Give kind, concrete, short advice.' },
+  'Heartbreak Healer': { emoji: '💔', system: 'You are Heartbreak Healer, a gentle, empathetic adviser helping people through breakups and grief. Validate feelings, then offer small healing steps.' },
+  'Marriage Counselor': { emoji: '💍', system: 'You are Marriage Counselor, a calm adviser on communication, trust, finances and intimacy in marriage. Offer balanced, practical guidance.' },
+  'Friendship Guide': { emoji: '🤝', system: 'You are Friendship Guide, helping with friendships, boundaries and social connection. Be supportive and direct.' },
+};
+
+const OFFLINE = {
+  heart: ['Heartbreak hurts because you loved deeply. Give yourself permission to grieve, limit contact for a while, and lean on people who care about you. Healing is not linear, and that is okay.', 'Try writing the unsent letter: say everything you wish you could say, then keep it to yourself. It helps clear the noise so you can heal.'],
+  marry: ['Strong marriages are built on small daily habits: honest talks, apologies that mean something, and shared goals. Schedule a weekly check-in where you each share one appreciation and one concern.'],
+  trust: ['Trust is rebuilt through consistency, not speeches. Be transparent, keep small promises, and give the other person time to see the change. If you are the one hurt, say clearly what you need to feel safe.'],
+  fight: ['When arguments heat up, pause. Say "I want to solve this with you, let us take 20 minutes." Return and use "I feel... when... because..." instead of blaming.'],
+  friend: ['Good friendships need reciprocity. Say plainly what you need, and notice who shows up for you. It is fine to let go of those who consistently do not.'],
+  love: ['Love grows through attention. Ask real questions, listen without fixing, and show appreciation daily. Learn your partner\'s love language and speak it on purpose.'],
+  def: ['Thank you for sharing that. Tell me a bit more: how long has this been going on, and what outcome would feel good to you? Meanwhile, focus on one honest, calm conversation rather than many small hints.'],
+};
+
+function offline(text) {
+  const t = text.toLowerCase();
+  const pick = (k) => OFFLINE[k][Math.floor(Math.random() * OFFLINE[k].length)];
+  if (/break|broke|heart|ex\b|miss|cry|lonely/.test(t)) return pick('heart');
+  if (/marr|wife|husband|wedding|spouse/.test(t)) return pick('marry');
+  if (/trust|cheat|lie|jealous/.test(t)) return pick('trust');
+  if (/fight|argu|angry|shout/.test(t)) return pick('fight');
+  if (/friend/.test(t)) return pick('friend');
+  if (/love|date|crush|romance/.test(t)) return pick('love');
+  return pick('def');
+}
+
+async function askAI(persona, messages) {
+  if (AI_ENDPOINT) {
+    try {
+      const r = await fetch(AI_ENDPOINT + '/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ persona, system: PERSONAS[persona].system, messages }),
+      });
+      const j = await r.json();
+      if (j.reply) return j.reply;
+    } catch (e) { /* fall through */ }
+  }
+  return offline(messages[messages.length - 1].content);
+}
+
+const QUOTES = [
+  'Love is not about finding someone to live with, but someone you cannot imagine living without.',
+  'A good relationship is two people choosing each other again, every ordinary day.',
+  'Communication is the oxygen of love. Without it, even the strongest bond suffocates.',
+  'Do not look for a perfect partner. Build a perfect understanding.',
+  'Real love listens first, and speaks to heal rather than to win.',
+  'The best marriages are friendships that learned to dance.',
+  'Healing after heartbreak begins the day you stop asking "why me" and start asking "what now".',
+  'Respect is the quiet foundation under every lasting love.',
+  'You cannot pour love from an empty cup. Care for yourself so you can love well.',
+  'Forgiveness is a gift to the relationship, and to yourself.',
+  'Love grows in the small things: the text, the tea, the patience.',
+  'Trust takes years to build, seconds to break, and forever to repair. Guard it.',
+  'Loving someone means seeing their flaws clearly and choosing them anyway.',
+  'Disagreement is not the enemy of love. Contempt is.',
+  'A relationship thrives where both people feel safe to be honest.',
+];
+
+async function getQuote(fresh = false) {
+  if (AI_ENDPOINT) {
+    try {
+      const r = await fetch(AI_ENDPOINT + '/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+      const j = await r.json();
+      if (j.quote) return j.quote;
+    } catch (e) { /* fall through */ }
+  }
+  const day = Math.floor(Date.now() / 86400000);
+  return QUOTES[(fresh ? Math.floor(Math.random() * QUOTES.length) : day) % QUOTES.length];
+}
+
+// ===== GOOGLE ADSENSE SETTINGS (ads stay OFF until you fill these in) =====
+const ADS_ENABLED=true;                       // 1) set to true after AdSense approves your site
+const ADSENSE_CLIENT='ca-pub-6906857406053446'; // 2) your AdSense publisher ID
+const ADSENSE_SLOT='0000000000';               // 3) your display ad unit's slot ID
+const ADS_TEST=false;                          // true = Google test ads while you check the layout
+const ADS_READY=ADS_ENABLED&&/^ca-pub-\d{16}$/.test(ADSENSE_CLIENT)&&!/^ca-pub-0+$/.test(ADSENSE_CLIENT)&&/^\d{6,}$/.test(ADSENSE_SLOT)&&!/^0+$/.test(ADSENSE_SLOT);
+let adLoaded=false,adPushed=false;
+function loadAdsScript(){
+  if(adLoaded) return; adLoaded=true;
+  window.adsbygoogle=window.adsbygoogle||[]; window.adsbygoogle.requestNonPersonalizedAds=1;
+  const s=document.createElement('script'); s.async=true; s.crossOrigin='anonymous';
+  s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+ADSENSE_CLIENT;
+  document.head.appendChild(s);
+}
+// One ad unit, shown only on content screens (Home, lists, Games). Never on sign-in, chat or profile.
+function updateAd(){
+  const w=$('#adwrap'); if(!ADS_READY||!w) return;
+  const ok=!!S.user&&(!!S.view||S.tab==='home'||S.tab==='games');
+  w.hidden=!ok; if(!ok||adPushed) return;
+  loadAdsScript(); adPushed=true;
+  w.innerHTML='<div class="adlabel">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="'+ADSENSE_CLIENT+'" data-ad-slot="'+ADSENSE_SLOT+'" data-ad-format="auto" data-full-width-responsive="true"'+(ADS_TEST?' data-adtest="on"':'')+'></ins>';
+  try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
+}
+
+const PLAY='https://play.google.com/store/apps/details?id=com.devtechjulie.reladviser';
+const PRIVACY='https://sites.google.com/view/privacy-policy-for-reladviser/home';
+const DELETEP='https://sites.google.com/view/privacy-policy-for-reladviser/home/account-data-deletion-on-relationship-adviser/';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={
+  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  del(k){try{localStorage.removeItem(k)}catch(e){}}
+};
+async function hash(p){
+  const s=p+'::ra_v1';
+  try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+  catch(e){let h=5381;for(const c of s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h}
+}
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const S={user:store.get('ra:session',null),tab:'home',view:null,mode:'in',quote:'',saved:false,persona:Object.keys(PERSONAS)[0],chats:{},busy:false,game:null,card:null};
+
+function tile(e,t,sub,act,arg){return `<div class="card" data-act="${act}" data-arg="${arg||''}"><div class="e">${e}</div><div><h2>${t}</h2><p>${sub}</p></div></div>`}
+
+function authView(){
+  const inn=S.mode==='in';
+  return `<main class="auth"><div class="muted c">Relationship Adviser</div><div class="bigheart">❤️</div>
+  <h1 class="c">${inn?'Welcome back':'Create your account'}</h1>
+  <p class="muted c" style="margin-bottom:22px">Advice for love, heartbreak and marriage, whenever you need it.</p>
+  ${inn?'':'<input id="f-name" placeholder="Your name" autocomplete="name">'}
+  <input id="f-email" type="email" placeholder="Email" autocomplete="email" autocapitalize="none">
+  <input id="f-pw" type="password" placeholder="Password" autocomplete="${inn?'current-password':'new-password'}">
+  <div id="err" class="err"></div>
+  <button class="btn" data-act="auth">${inn?'Sign in':'Sign up'}</button>
+  <a class="link c" data-act="mode">${inn?'New here? Create an account':'Have an account? Sign in'}</a>
+  <p class="muted c small" style="margin-top:22px">Your account is stored on this device only.</p></main>`;
+}
+function homeView(){
+  return `<p class="muted">Hello, ${esc(S.user.name.split(' ')[0])}</p><h1>Love, with clarity</h1>
+  <div class="quote"><div class="rose b">Today's quote</div><p class="qt">“${esc(S.quote||'…')}”</p>
+  <div class="row"><a data-act="save">${S.saved?'❤️ Saved':'🤍 Save'}</a><a data-act="newq">✨ New quote</a></div></div>
+  ${tile('💍','20 questions before marriage','Ask these before you say “I do”.','open','q')}
+  ${tile('🚦','20 things before saying yes','Check these before accepting a relationship.','open','c')}
+  ${tile('💬','Talk to an adviser','Love, heartbreak, marriage and friendship.','tab','chat')}
+  ${tile('🎲','Couple games','Deep questions, would-you-rather, date night spinner.','tab','games')}`;
+}
+function listView(){
+  const k=S.view, items=k==='q'?QUESTIONS:CONSIDER, done=store.get('ra:done:'+k,{});
+  const n=Object.values(done).filter(Boolean).length;
+  return `<a class="back" data-act="back">← Back</a><h1>${k==='q'?'20 Questions Before Marriage':'20 Things To Consider'}</h1>
+  <p class="muted" style="margin-bottom:12px">${n} of ${items.length} covered. Tap to tick off.</p>
+  ${items.map((t,i)=>`<div class="item ${done[i]?'done':''}" data-act="toggle" data-arg="${i}"><div>${done[i]?'✅':'⬜'}</div><div>${i+1}. ${esc(t)}</div></div>`).join('')}`;
+}
+function greeting(p){return {role:'assistant',content:`Hi, I'm ${p} ${PERSONAS[p].emoji}. What's on your heart today?`}}
+function chatView(){
+  const p=S.persona, msgs=S.chats[p]||[greeting(p)];
+  return `<h1>Advisers</h1><div class="chips">${Object.keys(PERSONAS).map(n=>`<div class="chip ${n===p?'on':''}" data-act="persona" data-arg="${esc(n)}">${PERSONAS[n].emoji} ${esc(n)}</div>`).join('')}</div>
+  <div class="chat"><div class="msgs" id="msgs">${msgs.map(m=>`<div class="m ${m.role==='user'?'u':''}">${esc(m.content)}</div>`).join('')}${S.busy?'<div class="muted small">typing…</div>':''}</div>
+  <div class="send"><input id="chat-in" placeholder="Type your message…" autocomplete="off"><button class="btn" data-act="send">Send</button></div></div>`;
+}
+function gamesView(){
+  if(!S.game) return `<h1>Couple games</h1>
+  ${tile('🃏','Deep questions','Take turns answering honestly.','game','deep')}
+  ${tile('⚖️','Would you rather','Pick one, then explain why.','game','wyr')}
+  ${tile('🎡','Date night spinner','Let fate choose your next date.','game','date')}`;
+  const c=S.card;
+  const body=S.game==='wyr'&&c?`${esc(c[0])}<div class="rose" style="margin:12px 0">or</div>${esc(c[1])}`:esc(c||'');
+  return `<h1>Couple games</h1><div class="gamecard"><div>${body}</div></div>
+  <button class="btn" data-act="next">${S.game==='date'?'Spin again':'Next card'}</button>
+  <a class="link c" data-act="gback">Back to games</a>`;
+}
+function profileView(){
+  const u=S.user, favs=store.get('ra:favs',[]);
+  const cnt=k=>Object.values(store.get('ra:done:'+k,{})).filter(Boolean).length;
+  return `<div class="c" style="margin-bottom:18px"><div class="av">${esc((u.name.trim()[0]||'❤').toUpperCase())}</div><h1 style="margin-bottom:2px">${esc(u.name)}</h1>
+  <div class="muted">${esc(u.email)}</div><div class="muted small">Member since ${esc(new Date(u.joined).toLocaleDateString())}</div></div>
+  <div class="card static"><h2>Your progress</h2><p>Questions before marriage: ${cnt('q')}/20</p><p>Relationship checklist: ${cnt('c')}/20</p></div>
+  <div class="card static"><h2>Saved quotes (${favs.length})</h2>
+  ${favs.length?favs.map((f,i)=>`<p style="color:var(--fg);font-style:italic;margin:8px 0">“${esc(f)}” <a class="rose small" style="cursor:pointer;font-style:normal" data-act="unsave" data-arg="${i}">Remove</a></p>`).join(''):'<p>Tap “Save” on a quote on the Home tab and it will appear here.</p>'}</div>
+  <button class="btn" data-act="signout">Sign out</button>
+  <button class="btn out" data-act="delete">Delete my account</button>
+  <p class="foot"><a href="${PLAY}" target="_blank" rel="noopener">Get the Android app</a><a href="${PRIVACY}" target="_blank" rel="noopener">Privacy</a><a href="${DELETEP}" target="_blank" rel="noopener">Data deletion</a><a href="mailto:devjuli311@gmail.com">Contact</a></p>
+  ${ADS_READY?'<p class="muted c small" style="margin-top:14px">Ads on this site are provided by Google AdSense and are non-personalized.</p>':''}<p class="muted c small" style="margin-top:14px">Relationship Adviser offers general guidance, not professional therapy. If you are in danger, contact local emergency services.<br>© 2026 Elite Tech Group</p>`;
+}
+function render(){
+  const v=$('#view'), nv=$('#nav');
+  if(!S.user){v.innerHTML=authView();nv.innerHTML='';updateAd();return}
+  let body;
+  if(S.view) body=listView();
+  else body={home:homeView,chat:chatView,games:gamesView,profile:profileView}[S.tab]();
+  const t=(id,e,l)=>`<a class="${S.tab===id&&!S.view?'on':''}" data-act="tab" data-arg="${id}"><span>${e}</span>${l}</a>`;
+  v.innerHTML=`<main>${body}</main>`;
+  nv.innerHTML=`<nav>${t('home','🏠','Home')}${t('chat','💬','Advisers')}${t('games','🎲','Games')}${t('profile','👤','Profile')}</nav>`;
+  const m=$('#msgs'); if(m) m.scrollTop=m.scrollHeight;
+  window.scrollTo(0,0);
+  updateAd();
+}
+async function loadQuote(fresh){S.saved=false;S.quote='';render();S.quote=await getQuote(fresh);if(S.tab==='home'&&!S.view&&S.user)render()}
+async function doAuth(){
+  const err=m=>{$('#err').textContent=m};
+  const email=($('#f-email').value||'').trim().toLowerCase(), pw=$('#f-pw').value||'';
+  const users=store.get('ra:users',{});
+  if(S.mode==='up'){
+    const name=($('#f-name').value||'').trim();
+    if(!name||!email.includes('@')||pw.length<6) return err('Enter your name, a valid email and a password of 6+ characters.');
+    if(users[email]) return err('An account with this email already exists. Sign in instead.');
+    const u={name,email,joined:new Date().toISOString()};
+    users[email]={...u,pw:await hash(pw)}; store.set('ra:users',users); S.user=u;
+  }else{
+    const rec=users[email], h=await hash(pw);
+    if(!rec||rec.pw!==h) return err('Wrong email or password.');
+    S.user={name:rec.name,email:rec.email,joined:rec.joined};
+  }
+  store.set('ra:session',S.user); S.tab='home'; S.view=null; loadQuote(false);
+}
+async function sendMsg(){
+  const inp=$('#chat-in'); const t=(inp&&inp.value||'').trim(); if(!t||S.busy) return;
+  const p=S.persona, msgs=S.chats[p]||(S.chats[p]=[greeting(p)]);
+  msgs.push({role:'user',content:t}); S.busy=true; render();
+  const reply=await askAI(p,msgs.slice(-12));
+  msgs.push({role:'assistant',content:reply}); S.busy=false; render();
+}
+function nextCard(){S.card=S.game==='deep'?rnd(DEEP_Q):S.game==='wyr'?rnd(WYR):rnd(DATES)}
+function removeAll(){
+  const users=store.get('ra:users',{}); delete users[S.user.email]; store.set('ra:users',users);
+  ['ra:session','ra:favs','ra:done:q','ra:done:c'].forEach(store.del);
+  S.user=null; S.chats={}; S.mode='in';
+}
+async function act(a,arg){
+  if(a==='mode'){S.mode=S.mode==='in'?'up':'in';render()}
+  else if(a==='auth') await doAuth();
+  else if(a==='tab'){S.tab=arg;S.view=null;if(arg!=='games')S.game=null;render()}
+  else if(a==='open'){S.view=arg;render()}
+  else if(a==='back'){S.view=null;render()}
+  else if(a==='toggle'){const k='ra:done:'+S.view,d=store.get(k,{});d[arg]=!d[arg];store.set(k,d);render()}
+  else if(a==='save'){const f=store.get('ra:favs',[]);if(S.quote&&!f.includes(S.quote)){f.unshift(S.quote);store.set('ra:favs',f)}S.saved=true;render()}
+  else if(a==='newq') loadQuote(true);
+  else if(a==='persona'){S.persona=arg;render()}
+  else if(a==='send') await sendMsg();
+  else if(a==='game'){S.game=arg;nextCard();render()}
+  else if(a==='next'){nextCard();render()}
+  else if(a==='gback'){S.game=null;render()}
+  else if(a==='unsave'){const f=store.get('ra:favs',[]);f.splice(+arg,1);store.set('ra:favs',f);render()}
+  else if(a==='signout'){store.del('ra:session');S.user=null;S.mode='in';S.chats={};render()}
+  else if(a==='delete'){
+    if(confirm('Delete your account? This permanently erases your account, saved quotes and progress from this browser. This cannot be undone.')&&confirm('Are you sure? All your data will be erased.')){removeAll();render()}
+  }
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t){e.preventDefault();act(t.dataset.act,t.dataset.arg)}});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter') return;
+  if(e.target.id==='chat-in'){e.preventDefault();sendMsg()}
+  else if(e.target.id==='f-pw'||e.target.id==='f-email'||e.target.id==='f-name'){e.preventDefault();doAuth()}
+});
+if(S.user) loadQuote(false); else render();
+</script>
+</body>
+</html>
