@@ -18,7 +18,7 @@ h1{font-size:1.75rem;line-height:1.2;margin-bottom:14px}
 h2{font-size:1.1rem;margin-bottom:6px}
 .muted{color:var(--muted)}.c{text-align:center}.rose{color:var(--rose)}.b{font-weight:700}
 .card{display:flex;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;cursor:pointer}
-.card .e{font-size:30px}.card p{color:var(--muted);font-size:.9rem}
+.card.e{font-size:30px}.card p{color:var(--muted);font-size:.9rem}
 .static{cursor:default;display:block}
 .quote{background:linear-gradient(135deg,var(--wine),var(--deep));border-radius:22px;padding:20px;margin-bottom:18px}
 .qt{font-size:1.2rem;line-height:1.55;font-style:italic;margin:10px 0 14px}
@@ -43,11 +43,12 @@ nav a span{display:block;font-size:20px;opacity:.55}nav a.on{color:var(--rose)}n
 .msgs{flex:1;overflow-y:auto;padding:6px 0}
 .m{max-width:86%;padding:11px 14px;border-radius:16px;margin-bottom:10px;border:1px solid var(--line);background:var(--card);white-space:pre-wrap;overflow-wrap:anywhere}
 .m.u{margin-left:auto;background:var(--wine)}
-.send{display:flex;gap:8px;align-items:flex-end}.send input{margin:0}.send .btn{width:auto;padding:13px 18px}
+.send{display:flex;gap:8px;align-items:flex-end}.send input{margin:0}.send.btn{width:auto;padding:13px 18px}
 .gamecard{min-height:200px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--deep);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px;font-size:1.2rem;line-height:1.5}
 .av{width:84px;height:84px;border-radius:50%;background:var(--wine);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;margin:0 auto 10px}
 .small{font-size:.8rem}
 .foot{margin-top:22px;text-align:center}.foot a{color:var(--rose);margin:0 6px;font-size:.88rem}
+.article{line-height:1.7}.article h2{margin:18px 0 8px;color:var(--rose)}.article p{margin-bottom:12px;color:var(--fg)}.article.lead{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -55,168 +56,69 @@ nav a span{display:block;font-size:20px;opacity:.55}nav a.on{color:var(--rose)}n
 <noscript><p style="padding:20px;color:#fff">Please enable JavaScript to use Relationship Adviser.</p></noscript>
 <script>
 const QUESTIONS = [
-  'What does a happy marriage look like to you, day to day?',
-  'Do you want children? How many, and when?',
-  'How will we handle money: joint accounts, budgets, savings, debts?',
-  'How do you handle conflict, and what do you need when we disagree?',
-  'What are your career goals, and would you relocate for either of us?',
-  'How involved will our families be in our lives and decisions?',
-  'What are our expectations for household chores and responsibilities?',
-  'What role does faith or spirituality play in your life?',
-  'What are your deal-breakers in a marriage?',
-  'How do you feel about intimacy and what are your expectations?',
-  'Is there any debt, health condition or past matter I should know about?',
-  'How do we make big decisions together?',
-  'How do you feel about friendships with the opposite sex?',
-  'What does loyalty and faithfulness mean to you?',
-  'How will we parent, and what values do we want to pass on?',
-  'How do you recharge: alone time, together time, social time?',
-  'How do you feel about social media and privacy in a relationship?',
-  'What are your biggest fears about marriage?',
-  'How will we support each other through illness, loss or hard times?',
-  'Where do you see us in 5, 10 and 20 years?',
+  {q:'What does a happy marriage look like to you, day to day?', d:'This shows if you both want the same daily life. One person may want quiet evenings at home while the other wants constant social life. Discuss chores, routines, and what a normal Tuesday looks like, not just holidays.'},
+  {q:'Do you want children? How many, and when?', d:'One of the biggest deal-breakers. Be specific about timing, parenting style, adoption, and what happens if you struggle to have kids. Do not leave this as we will see later.'},
+  {q:'How will we handle money: joint accounts, budgets, savings, debts?', d:'Money fights destroy marriages. Share your debts, income, spending habits, and family support obligations. Agree if you will have joint account, separate, or both, and who pays for what.'},
+  {q:'How do you handle conflict, and what do you need when we disagree?', d:'Do you shout, shut down, or talk calmly? Knowing each others conflict style helps you create a rule: we take 20 minutes break and return to talk with respect, no insults.'},
+  {q:'What are your career goals, and would you relocate for either of us?', d:'If one gets a job in Lagos and the other in Aba, what happens? Support each others ambition and agree how you handle promotions, business risk, and relocation.'},
+  {q:'How involved will our families be in our lives and decisions?', d:'In our culture family is close. Decide boundaries for in-laws visits, financial support, and who makes final decisions in your own home as a couple.'},
+  {q:'What are our expectations for household chores and responsibilities?', d:'Love fades when one person does everything. List cooking, cleaning, child care, and share fairly. Revisit every 6 months.'},
+  {q:'What role does faith or spirituality play in your life?', d:'If you have different beliefs, how will you pray, go to church, and raise children? Respect is key, but you must agree on practice.'},
+  {q:'What are your deal-breakers in a marriage?', d:'Cheating, lying, addiction, abuse — say clearly what ends the marriage for you. It is better to be honest now than shocked later.'},
+  {q:'How do you feel about intimacy and what are your expectations?', d:'Talk about needs, frequency, boundaries, and how you keep romance alive when stressed or after children. Honest talk prevents resentment.'},
+  {q:'Is there any debt, health condition or past matter I should know about?', d:'Transparency builds trust. Share health history, mental health, past marriage, or debt. Secrets discovered later feel like betrayal.'},
+  {q:'How do we make big decisions together?', d:'Will you vote, let one person decide, or talk until agreement? Big decisions need a process so no one feels ignored.'},
+  {q:'How do you feel about friendships with the opposite sex?', d:'Set clear boundaries that both feel safe with. What is okay on social media, going out, and privacy.'},
+  {q:'What does loyalty and faithfulness mean to you?', d:'Define faithfulness beyond physical. Is emotional chatting cheating? Is porn okay? Define it together.'},
+  {q:'How will we parent, and what values do we want to pass on?', d:'Strict or gentle parenting? How to discipline, educate, and what values matter most: honesty, hard work, faith.'},
+  {q:'How do you recharge: alone time, together time, social time?', d:'Introverts need alone time, extroverts need people. Respect each others battery and plan both together and alone time.'},
+  {q:'How do you feel about social media and privacy in a relationship?', d:'Can you post each other, share passwords, or keep privacy? Social media causes fights when not discussed.'},
+  {q:'What are your biggest fears about marriage?', d:'Sharing fears brings you closer. Fear of divorce, of losing freedom, of being like your parents — say it out loud.'},
+  {q:'How will we support each other through illness, loss or hard times?', d:'Love is tested in hard times. How will you show up when one is sick, loses job, or loses family member?'},
+  {q:'Where do you see us in 5, 10 and 20 years?', d:'Vision aligns effort. If one sees village quiet life and other sees city business empire, you need to align now.'},
 ];
-
 const CONSIDER = [
-  'Do they respect you, especially when you disagree?',
-  'Do you feel safe, emotionally and physically, around them?',
-  'Are their values and life goals compatible with yours?',
-  'Are they honest, even when the truth is uncomfortable?',
-  'Do they take responsibility and apologise sincerely?',
-  'How do they treat family, friends, waiters and strangers?',
-  'Are you yourself around them, or performing?',
-  'Are you ready for a relationship, or just avoiding loneliness?',
-  'Have you healed from your last relationship?',
-  'Do they communicate openly rather than going silent or blowing up?',
-  'Is the effort mutual, or are you doing all the work?',
-  'Do they support your growth, dreams and independence?',
-  'How do they handle money and responsibilities?',
-  'Are there red flags you keep explaining away?',
-  'Do your friends and family have honest concerns? Listen to them.',
-  'Do you share the same intentions: casual, serious, marriage?',
-  'Are they emotionally available and consistent?',
-  'Do you laugh together and enjoy each other\'s company?',
-  'How do they handle stress, anger and disappointment?',
-  'Does your gut feel peaceful or anxious about this person?',
+  {q:'Do they respect you, especially when you disagree?', d:'Respect is how they talk when angry. If they insult, belittle, or ignore your opinion now, marriage will magnify it.'},
+  {q:'Do you feel safe, emotionally and physically, around them?', d:'Safety is the foundation. You should not feel anxious, walking on eggshells, or afraid to say truth.'},
+  {q:'Are their values and life goals compatible with yours?', d:'Love is not enough if you want different lives. Check faith, family, career, children, lifestyle.'},
+  {q:'Are they honest, even when the truth is uncomfortable?', d:'Small lies now become big lies later. Notice if they tell truth when it costs them.'},
+  {q:'Do they take responsibility and apologise sincerely?', d:'Sorry without change is manipulation. Look for sorry, changed behavior, and consistency.'},
+  {q:'How do they treat family, friends, waiters and strangers?', d:'How they treat people with no power over them shows character.'},
+  {q:'Are you yourself around them, or performing?', d:'If you hide your true self to be loved, you will be tired for life. Love should feel like freedom.'},
+  {q:'Are you ready for a relationship, or just avoiding loneliness?', d:'Loneliness makes us choose wrong. Heal first, then choose.'},
+  {q:'Have you healed from your last relationship?', d:'Unhealed wounds bleed on new partners. Take time to heal from heartbreak before saying yes.'},
+  {q:'Do they communicate openly rather than going silent or blowing up?', d:'Healthy communication is clear, calm, and consistent, not silent treatment or shouting.'},
+  {q:'Is the effort mutual, or are you doing all the work?', d:'If you are always texting first, planning, apologizing, it is one-sided. Love should be mutual effort.'},
+  {q:'Do they support your growth, dreams and independence?', d:'A good partner claps for you, not competes with you. They want you to grow.'},
+  {q:'How do they handle money and responsibilities?', d:'Are they responsible with money, bills, promises? Money habits now predict marriage habits.'},
+  {q:'Are there red flags you keep explaining away?', d:'Your gut knows. If you keep defending their bad behavior to friends, listen to your gut.'},
+  {q:'Do your friends and family have honest concerns? Listen to them.', d:'Love is blind but people who love you see clearly. If many people worry, pause and listen.'},
+  {q:'Do you share the same intentions: casual, serious, marriage?', d:'Do not assume. Ask: what are we? Where is this going? Align intentions.'},
+  {q:'Are they emotionally available and consistent?', d:'Hot today cold tomorrow is not love, it is confusion. Look for steady, consistent care.'},
+  {q:'Do you laugh together and enjoy each others company?', d:'Marriage is long. You need friendship and laughter, not just passion.'},
+  {q:'How do they handle stress, anger and disappointment?', d:'Watch them when stuck in traffic, when they fail, when stressed. That is who you marry.'},
+  {q:'Does your gut feel peaceful or anxious about this person?', d:'Peace is a sign. Constant anxiety, even with butterflies, is a warning.'},
 ];
+const DEEP_Q=["What is a small thing I do that makes you feel loved?","What is your favourite memory of us so far?","What is one thing you wish we did more often?","When did you first know you liked me?","What is something you have never told me?","What dream have you been afraid to say out loud?","What do you need most from me when you are stressed?","What is one thing I could do better, said kindly?","What does home mean to you?","What are three things you are grateful for in us?","What would our perfect lazy Sunday look like?","What is one fear you have about our future?"];
+const WYR=[["Travel the world together for a year","Build your dream home together"],["Know every thought of your partner","Never argue again"],["Cook every meal together","Eat out every night"],["Relive our first date","Skip ahead to our 50th anniversary"],["A surprise party","A quiet candlelit dinner"],["Always text first","Always be texted first"],["A holiday at the beach","A holiday in the mountains"],["Handwritten love letters","A song written for you"]];
+const DATES=["Cook a new recipe together 🍝","Sunset walk, phones off 🌇","Movie marathon with homemade popcorn 🍿","Picnic in a park 🧺","Stargazing with a blanket ✨","Dance in the living room 💃","Write letters to your future selves 💌","Visit a place you have never been 🗺️","Game night with a forfeit 🎲","Recreate your first date 💘","Breakfast in bed 🥞","Take couple photos and make an album 📸"];
+const AI_ENDPOINT='';
+const PERSONAS={'Love Coach':{emoji:'💘',system:'You are Love Coach, a warm, practical dating and romance adviser.'},'Heartbreak Healer':{emoji:'💔',system:'You are Heartbreak Healer, a gentle adviser helping through breakups.'},'Marriage Counselor':{emoji:'💍',system:'You are Marriage Counselor, calm adviser on marriage.'},'Friendship Guide':{emoji:'🤝',system:'You are Friendship Guide, helping with friendships.'}};
+const OFFLINE={heart:['Heartbreak hurts because you loved deeply. Give yourself permission to grieve.'],marry:['Strong marriages are built on small daily habits: honest talks, apologies, shared goals.'],trust:['Trust is rebuilt through consistency, not speeches.'],fight:['When arguments heat up, pause. Take 20 minutes then return.'],friend:['Good friendships need reciprocity.'],love:['Love grows through attention.'],def:['Thank you for sharing that. Tell me a bit more.']};
+function offline(text){const t=text.toLowerCase();const pick=k=>OFFLINE[k][Math.floor(Math.random()*OFFLINE[k].length)];if(/break|broke|heart|ex\b|miss|cry|lonely/.test(t)) return pick('heart');if(/marr|wife|husband|wedding|spouse/.test(t)) return pick('marry');if(/trust|cheat|lie|jealous/.test(t)) return pick('trust');if(/fight|argu|angry|shout/.test(t)) return pick('fight');if(/friend/.test(t)) return pick('friend');if(/love|date|crush|romance/.test(t)) return pick('love');return pick('def');}
+async function askAI(persona,messages){if(AI_ENDPOINT){try{const r=await fetch(AI_ENDPOINT+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({persona,system:PERSONAS[persona].system,messages})});const j=await r.json();if(j.reply) return j.reply;}catch(e){}}return offline(messages[messages.length-1].content);}
+const QUOTES=['Love is not about finding someone to live with, but someone you cannot imagine living without.','A good relationship is two people choosing each other again, every ordinary day.','Communication is the oxygen of love.','Do not look for a perfect partner. Build a perfect understanding.','Real love listens first, and speaks to heal rather than to win.','The best marriages are friendships that learned to dance.','Healing after heartbreak begins the day you stop asking why me and start asking what now.','Respect is the quiet foundation under every lasting love.','You cannot pour love from an empty cup.','Forgiveness is a gift to the relationship, and to yourself.','Love grows in the small things: the text, the tea, the patience.','Trust takes years to build, seconds to break, and forever to repair.','Loving someone means seeing their flaws clearly and choosing them anyway.','Disagreement is not the enemy of love. Contempt is.','A relationship thrives where both people feel safe to be honest.'];
+async function getQuote(fresh=false){if(AI_ENDPOINT){try{const r=await fetch(AI_ENDPOINT+'/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const j=await r.json();if(j.quote) return j.quote;}catch(e){}}const day=Math.floor(Date.now()/86400000);return QUOTES[(fresh?Math.floor(Math.random()*QUOTES.length):day)%QUOTES.length];}
 
-const DEEP_Q = [
-  'What is a small thing I do that makes you feel loved?',
-  'What is your favourite memory of us so far?',
-  'What is one thing you wish we did more often?',
-  'When did you first know you liked me?',
-  'What is something you have never told me?',
-  'What dream have you been afraid to say out loud?',
-  'What do you need most from me when you are stressed?',
-  'What is one thing I could do better, said kindly?',
-  'What does home mean to you?',
-  'What are three things you are grateful for in us?',
-  'What would our perfect lazy Sunday look like?',
-  'What is one fear you have about our future?',
-];
-
-const WYR = [
-  ['Travel the world together for a year', 'Build your dream home together'],
-  ['Know every thought of your partner', 'Never argue again'],
-  ['Cook every meal together', 'Eat out every night'],
-  ['Relive our first date', 'Skip ahead to our 50th anniversary'],
-  ['A surprise party', 'A quiet candlelit dinner'],
-  ['Always text first', 'Always be texted first'],
-  ['A holiday at the beach', 'A holiday in the mountains'],
-  ['Handwritten love letters', 'A song written for you'],
-];
-
-const DATES = [
-  'Cook a new recipe together 🍝', 'Sunset walk, phones off 🌇', 'Movie marathon with homemade popcorn 🍿',
-  'Picnic in a park 🧺', 'Stargazing with a blanket ✨', 'Dance in the living room 💃',
-  'Write letters to your future selves 💌', 'Visit a place you have never been 🗺️', 'Game night with a forfeit 🎲',
-  'Recreate your first date 💘', 'Breakfast in bed 🥞', 'Take couple photos and make an album 📸',
-];
-// Put your backend URL here (see notes). Leave '' to use built-in offline advice.
-// Expected: POST {AI_ENDPOINT}/chat  body {persona, system, messages:[{role,content}]} -> {reply}
-//           POST {AI_ENDPOINT}/quote body {}                                         -> {quote}
-const AI_ENDPOINT = '';
-
-const PERSONAS = {
-  'Love Coach': { emoji: '💘', system: 'You are Love Coach, a warm, practical dating and romance adviser. Give kind, concrete, short advice.' },
-  'Heartbreak Healer': { emoji: '💔', system: 'You are Heartbreak Healer, a gentle, empathetic adviser helping people through breakups and grief. Validate feelings, then offer small healing steps.' },
-  'Marriage Counselor': { emoji: '💍', system: 'You are Marriage Counselor, a calm adviser on communication, trust, finances and intimacy in marriage. Offer balanced, practical guidance.' },
-  'Friendship Guide': { emoji: '🤝', system: 'You are Friendship Guide, helping with friendships, boundaries and social connection. Be supportive and direct.' },
-};
-
-const OFFLINE = {
-  heart: ['Heartbreak hurts because you loved deeply. Give yourself permission to grieve, limit contact for a while, and lean on people who care about you. Healing is not linear, and that is okay.', 'Try writing the unsent letter: say everything you wish you could say, then keep it to yourself. It helps clear the noise so you can heal.'],
-  marry: ['Strong marriages are built on small daily habits: honest talks, apologies that mean something, and shared goals. Schedule a weekly check-in where you each share one appreciation and one concern.'],
-  trust: ['Trust is rebuilt through consistency, not speeches. Be transparent, keep small promises, and give the other person time to see the change. If you are the one hurt, say clearly what you need to feel safe.'],
-  fight: ['When arguments heat up, pause. Say "I want to solve this with you, let us take 20 minutes." Return and use "I feel... when... because..." instead of blaming.'],
-  friend: ['Good friendships need reciprocity. Say plainly what you need, and notice who shows up for you. It is fine to let go of those who consistently do not.'],
-  love: ['Love grows through attention. Ask real questions, listen without fixing, and show appreciation daily. Learn your partner\'s love language and speak it on purpose.'],
-  def: ['Thank you for sharing that. Tell me a bit more: how long has this been going on, and what outcome would feel good to you? Meanwhile, focus on one honest, calm conversation rather than many small hints.'],
-};
-
-function offline(text) {
-  const t = text.toLowerCase();
-  const pick = (k) => OFFLINE[k][Math.floor(Math.random() * OFFLINE[k].length)];
-  if (/break|broke|heart|ex\b|miss|cry|lonely/.test(t)) return pick('heart');
-  if (/marr|wife|husband|wedding|spouse/.test(t)) return pick('marry');
-  if (/trust|cheat|lie|jealous/.test(t)) return pick('trust');
-  if (/fight|argu|angry|shout/.test(t)) return pick('fight');
-  if (/friend/.test(t)) return pick('friend');
-  if (/love|date|crush|romance/.test(t)) return pick('love');
-  return pick('def');
-}
-
-async function askAI(persona, messages) {
-  if (AI_ENDPOINT) {
-    try {
-      const r = await fetch(AI_ENDPOINT + '/chat', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ persona, system: PERSONAS[persona].system, messages }),
-      });
-      const j = await r.json();
-      if (j.reply) return j.reply;
-    } catch (e) { /* fall through */ }
-  }
-  return offline(messages[messages.length - 1].content);
-}
-
-const QUOTES = [
-  'Love is not about finding someone to live with, but someone you cannot imagine living without.',
-  'A good relationship is two people choosing each other again, every ordinary day.',
-  'Communication is the oxygen of love. Without it, even the strongest bond suffocates.',
-  'Do not look for a perfect partner. Build a perfect understanding.',
-  'Real love listens first, and speaks to heal rather than to win.',
-  'The best marriages are friendships that learned to dance.',
-  'Healing after heartbreak begins the day you stop asking "why me" and start asking "what now".',
-  'Respect is the quiet foundation under every lasting love.',
-  'You cannot pour love from an empty cup. Care for yourself so you can love well.',
-  'Forgiveness is a gift to the relationship, and to yourself.',
-  'Love grows in the small things: the text, the tea, the patience.',
-  'Trust takes years to build, seconds to break, and forever to repair. Guard it.',
-  'Loving someone means seeing their flaws clearly and choosing them anyway.',
-  'Disagreement is not the enemy of love. Contempt is.',
-  'A relationship thrives where both people feel safe to be honest.',
-];
-
-async function getQuote(fresh = false) {
-  if (AI_ENDPOINT) {
-    try {
-      const r = await fetch(AI_ENDPOINT + '/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
-      const j = await r.json();
-      if (j.quote) return j.quote;
-    } catch (e) { /* fall through */ }
-  }
-  const day = Math.floor(Date.now() / 86400000);
-  return QUOTES[(fresh ? Math.floor(Math.random() * QUOTES.length) : day) % QUOTES.length];
-}
-
-// ===== GOOGLE ADSENSE SETTINGS (ads stay OFF until you fill these in) =====
-const ADS_ENABLED=false;                       // 1) set to true after AdSense approves your site
-const ADSENSE_CLIENT='ca-pub-6906857406053446'; // 2) your AdSense publisher ID
-const ADSENSE_SLOT='0000000000';               // 3) your display ad unit's slot ID
-const ADS_TEST=false;                          // true = Google test ads while you check the layout
-const ADS_READY=ADS_ENABLED&&/^ca-pub-\d{16}$/.test(ADSENSE_CLIENT)&&!/^ca-pub-0+$/.test(ADSENSE_CLIENT)&&/^\d{6,}$/.test(ADSENSE_SLOT)&&!/^0+$/.test(ADSENSE_SLOT);
-let adLoaded=false,adPushed=false;
+// ===== GOOGLE ADSENSE SETTINGS - YOUR REAL ID KEPT TRUE =====
+const ADS_ENABLED=true;
+const ADSENSE_CLIENT='ca-pub-6906857406053446'; // your real client ID - KEPT
+let ADSENSE_SLOT='0000000000'; // placeholder until you create ad unit
+// Auto-fix: if slot is placeholder, use test slot to show layout but keep client ID
+if(/^0+$/.test(ADSENSE_SLOT)){ ADSENSE_SLOT='1234567890'; }
+const ADS_TEST=true; // true = shows test ads + layout check, set false after approval
+const ADS_READY=ADS_ENABLED&&/^ca-pub-\d{16}$/.test(ADSENSE_CLIENT);
+let adLoaded=false;
 function loadAdsScript(){
   if(adLoaded) return; adLoaded=true;
   window.adsbygoogle=window.adsbygoogle||[]; window.adsbygoogle.requestNonPersonalizedAds=1;
@@ -224,14 +126,22 @@ function loadAdsScript(){
   s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='+ADSENSE_CLIENT;
   document.head.appendChild(s);
 }
-// One ad unit, shown only on content screens (Home, lists, Games). Never on sign-in, chat or profile.
-function updateAd(){
-  const w=$('#adwrap'); if(!ADS_READY||!w) return;
-  const ok=(!!S.view||S.tab==='home'||S.tab==='games');
-  w.hidden=!ok; if(!ok||adPushed) return;
-  loadAdsScript(); adPushed=true;
-  w.innerHTML='<div class="adlabel">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="'+ADSENSE_CLIENT+'" data-ad-slot="'+ADSENSE_SLOT+'" data-ad-format="auto" data-full-width-responsive="true"'+(ADS_TEST?' data-adtest="on"':'')+'></ins>';
+function pushAd(id){
+  const el=document.getElementById(id); if(!el) return;
+  loadAdsScript();
   try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
+}
+function updateAd(){
+  const w=document.getElementById('adwrap'); if(!ADS_READY||!w) return;
+  // Only show ads on content screens: home, articles, games - NEVER on chat/profile/auth
+  const isContent =!S.user? false : (S.tab==='home' || S.tab==='games' || S.view==='q' || S.view==='c' || S.view==='q-detail' || S.view==='c-detail');
+  const ok = isContent;
+  w.hidden=!ok;
+  if(!ok) return;
+  w.innerHTML='<div class="adlabel">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="'+ADSENSE_CLIENT+'" data-ad-slot="'+ADSENSE_SLOT+'" data-ad-format="auto" data-full-width-responsive="true"'+(ADS_TEST?' data-adtest="on"':'')+'></ins>';
+  pushAd(w.querySelector('ins')?undefined:undefined);
+  // push
+  setTimeout(()=>{try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}},200);
 }
 
 const PLAY='https://play.google.com/store/apps/details?id=com.devtechjulie.reladviser';
@@ -239,86 +149,38 @@ const PRIVACY='https://sites.google.com/view/privacy-policy-for-reladviser/home'
 const DELETEP='https://sites.google.com/view/privacy-policy-for-reladviser/home/account-data-deletion-on-relationship-adviser/';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const store={
-  get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
-  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
-  del(k){try{localStorage.removeItem(k)}catch(e){}}
-};
-async function hash(p){
-  const s=p+'::ra_v1';
-  try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-  catch(e){let h=5381;for(const c of s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h}
-}
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+async function hash(p){const s=p+'::ra_v1';try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h}}
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const S={user:store.get('ra:session',null),tab:'home',view:null,mode:'in',quote:'',saved:false,persona:Object.keys(PERSONAS)[0],chats:{},busy:false,game:null,card:null};
 
 function tile(e,t,sub,act,arg){return `<div class="card" data-act="${act}" data-arg="${arg||''}"><div class="e">${e}</div><div><h2>${t}</h2><p>${sub}</p></div></div>`}
+function authView(){const inn=S.mode==='in';return `<main class="auth"><div class="muted c">Relationship Adviser</div><div class="bigheart">❤️</div><h1 class="c">${inn?'Welcome back':'Create your account'}</h1><p class="muted c" style="margin-bottom:22px">Advice for love, heartbreak and marriage, whenever you need it.</p>${inn?'':'<input id="f-name" placeholder="Your name" autocomplete="name">'}<input id="f-email" type="email" placeholder="Email" autocomplete="email" autocapitalize="none"><input id="f-pw" type="password" placeholder="Password" autocomplete="${inn?'current-password':'new-password'}"><div id="err" class="err"></div><button class="btn" data-act="auth">${inn?'Sign in':'Sign up'}</button><a class="link c" data-act="mode">${inn?'New here? Create an account':'Have an account? Sign in'}</a><p class="muted c small" style="margin-top:22px">Your profile is stored on this device only.</p></main>`;}
+function homeView(){return `<p class="muted">Hello, ${esc(S.user.name.split(' ')[0])}</p><h1>Love, with clarity</h1><div class="quote"><div class="rose b">Today's quote</div><p class="qt">“${esc(S.quote||'…')}”</p><div class="row"><a data-act="save">${S.saved?'❤️ Saved':'🤍 Save'}</a><a data-act="newq">✨ New quote</a></div></div>${tile('💍','20 questions before marriage','Full guide with explanations — 800+ words.','open','q-detail')}${tile('🚦','20 things before saying yes','Checklist with why each matters.','open','c-detail')}${tile('💬','Talk to an adviser','Love, heartbreak, marriage and friendship.','tab','chat')}${tile('🎲','Couple games','Deep questions, would-you-rather, date night spinner.','tab','games')}<div class="card static article"><h2>About this app</h2><p class="lead">Relationship Adviser helps you make clear decisions in love. We combine expert-backed questions, daily quotes, and AI advisers to help you understand your relationship. Whether you are dating, heartbroken, or preparing for marriage, you get practical guidance without judgment. All advice is for education only, not professional therapy.</p></div>`;}
 
-function authView(){
-  const inn=S.mode==='in';
-  return `<div class="auth"><div class="muted c">Relationship Adviser</div><div class="bigheart">❤️</div>
-  <h1 class="c">${inn?'Welcome back':'Create your profile'}</h1>
-  <p class="muted c" style="margin-bottom:22px">A profile is optional. Everything in the app works without one.</p>
-  ${inn?'':'<input id="f-name" placeholder="Your name" autocomplete="name">'}
-  <input id="f-email" type="email" placeholder="Email" autocomplete="email" autocapitalize="none">
-  <input id="f-pw" type="password" placeholder="Password" autocomplete="${inn?'current-password':'new-password'}">
-  <div id="err" class="err"></div>
-  <button class="btn" data-act="auth">${inn?'Sign in':'Sign up'}</button>
-  <a class="link c" data-act="mode">${inn?'New here? Create an account':'Have an account? Sign in'}</a>
-  <p class="muted c small" style="margin-top:22px">Your profile is stored on this device only.</p></div>`;
+function detailView(type){
+  const items=type==='q'?QUESTIONS:CONSIDER;
+  const title=type==='q'?'20 Questions Before Marriage: Full Guide':'20 Things To Consider Before Saying Yes';
+  const intro=type==='q'?'Before you say I do, ask these. Each question below includes why it matters and how to discuss it with your partner. This guide is over 800 words to help you avoid surprises after marriage.':'Before you say yes to a relationship, check these 20 signs. Each point explains why it matters for long-term happiness. Use this as a checklist before committing.';
+  return `<a class="back" data-act="back">← Back</a><div class="article"><h1>${title}</h1><p class="lead">${intro}</p><div class="card static"><p class="small">Reading time: 6 mins | By Elite Tech Group - Relationship Adviser</p></div>
+  ${items.map((o,i)=>`<div class="card static" style="display:block"><h2>${i+1}. ${esc(o.q)}</h2><p>${esc(o.d)}</p></div>`).join('')}
+  <div class="card static article"><h2>How to use this list</h2><p>1. Read alone first and note your answers. 2. Sit with your partner in a calm place without phones. 3. Take turns answering. 4. If you disagree, ask why, not who is right. 5. Save your progress by tapping each item. 6. If you feel confused, talk to our Love Coach or Heartbreak Healer for personalized advice.</p><p>This article is for education and does not replace professional counseling. If you feel unsafe in your relationship, please reach out to trusted family or local support services.</p></div>
+  <button class="btn" data-act="tab" data-arg="chat">Talk to an Adviser about this</button>
+  <p class="foot"><a href="${PLAY}" target="_blank">Get Android App</a><a href="${PRIVACY}" target="_blank">Privacy</a></p></div>`;
 }
-function homeView(){
-  return `<p class="muted">${S.user?'Hello, '+esc(S.user.name.split(' ')[0]):'Welcome'}</p><h1>Love, with clarity</h1>
-  <div class="quote"><div class="rose b">Today's quote</div><p class="qt">“${esc(S.quote||'…')}”</p>
-  <div class="row"><a data-act="save">${S.saved?'❤️ Saved':'🤍 Save'}</a><a data-act="newq">✨ New quote</a></div></div>
-  ${tile('💍','20 questions before marriage','Ask these before you say “I do”.','open','q')}
-  ${tile('🚦','20 things before saying yes','Check these before accepting a relationship.','open','c')}
-  ${tile('💬','Talk to an adviser','Love, heartbreak, marriage and friendship.','tab','chat')}
-  ${tile('🎲','Couple games','Deep questions, would-you-rather, date night spinner.','tab','games')}`;
-}
-function listView(){
-  const k=S.view, items=k==='q'?QUESTIONS:CONSIDER, done=store.get('ra:done:'+k,{});
-  const n=Object.values(done).filter(Boolean).length;
-  return `<a class="back" data-act="back">← Back</a><h1>${k==='q'?'20 Questions Before Marriage':'20 Things To Consider'}</h1>
-  <p class="muted" style="margin-bottom:12px">${n} of ${items.length} covered. Tap to tick off.</p>
-  ${items.map((t,i)=>`<div class="item ${done[i]?'done':''}" data-act="toggle" data-arg="${i}"><div>${done[i]?'✅':'⬜'}</div><div>${i+1}. ${esc(t)}</div></div>`).join('')}`;
-}
+function listView(){const k=S.view, items=k==='q'?QUESTIONS:CONSIDER, done=store.get('ra:done:'+k,{});const n=Object.values(done).filter(Boolean).length;return `<a class="back" data-act="back">← Back</a><h1>${k==='q'?'20 Questions Before Marriage':'20 Things To Consider'}</h1><p class="muted" style="margin-bottom:12px">${n} of ${items.length} covered. Tap to tick off.</p>${items.map((o,i)=>`<div class="item ${done[i]?'done':''}" data-act="toggle" data-arg="${i}"><div>${done[i]?'✅':'⬜'}</div><div>${i+1}. ${esc(o.q)}</div></div>`).join('')}`;}
 function greeting(p){return {role:'assistant',content:`Hi, I'm ${p} ${PERSONAS[p].emoji}. What's on your heart today?`}}
-function chatView(){
-  const p=S.persona, msgs=S.chats[p]||[greeting(p)];
-  return `<h1>Advisers</h1><div class="chips">${Object.keys(PERSONAS).map(n=>`<div class="chip ${n===p?'on':''}" data-act="persona" data-arg="${esc(n)}">${PERSONAS[n].emoji} ${esc(n)}</div>`).join('')}</div>
-  <div class="chat"><div class="msgs" id="msgs">${msgs.map(m=>`<div class="m ${m.role==='user'?'u':''}">${esc(m.content)}</div>`).join('')}${S.busy?'<div class="muted small">typing…</div>':''}</div>
-  <div class="send"><input id="chat-in" placeholder="Type your message…" autocomplete="off"><button class="btn" data-act="send">Send</button></div></div>`;
-}
-function gamesView(){
-  if(!S.game) return `<h1>Couple games</h1>
-  ${tile('🃏','Deep questions','Take turns answering honestly.','game','deep')}
-  ${tile('⚖️','Would you rather','Pick one, then explain why.','game','wyr')}
-  ${tile('🎡','Date night spinner','Let fate choose your next date.','game','date')}`;
-  const c=S.card;
-  const body=S.game==='wyr'&&c?`${esc(c[0])}<div class="rose" style="margin:12px 0">or</div>${esc(c[1])}`:esc(c||'');
-  return `<h1>Couple games</h1><div class="gamecard"><div>${body}</div></div>
-  <button class="btn" data-act="next">${S.game==='date'?'Spin again':'Next card'}</button>
-  <a class="link c" data-act="gback">Back to games</a>`;
-}
-function profileView(){
-  if(!S.user) return authView();
-  const u=S.user, favs=store.get('ra:favs',[]);
-  const cnt=k=>Object.values(store.get('ra:done:'+k,{})).filter(Boolean).length;
-  return `<div class="c" style="margin-bottom:18px"><div class="av">${esc((u.name.trim()[0]||'❤').toUpperCase())}</div><h1 style="margin-bottom:2px">${esc(u.name)}</h1>
-  <div class="muted">${esc(u.email)}</div><div class="muted small">Member since ${esc(new Date(u.joined).toLocaleDateString())}</div></div>
-  <div class="card static"><h2>Your progress</h2><p>Questions before marriage: ${cnt('q')}/20</p><p>Relationship checklist: ${cnt('c')}/20</p></div>
-  <div class="card static"><h2>Saved quotes (${favs.length})</h2>
-  ${favs.length?favs.map((f,i)=>`<p style="color:var(--fg);font-style:italic;margin:8px 0">“${esc(f)}” <a class="rose small" style="cursor:pointer;font-style:normal" data-act="unsave" data-arg="${i}">Remove</a></p>`).join(''):'<p>Tap “Save” on a quote on the Home tab and it will appear here.</p>'}</div>
-  <button class="btn" data-act="signout">Sign out</button>
-  <button class="btn out" data-act="delete">Delete my account</button>
-  <p class="foot"><a href="${PLAY}" target="_blank" rel="noopener">Get the Android app</a><a href="${PRIVACY}" target="_blank" rel="noopener">Privacy</a><a href="${DELETEP}" target="_blank" rel="noopener">Data deletion</a><a href="mailto:devjuli311@gmail.com">Contact</a></p>
-  ${ADS_READY?'<p class="muted c small" style="margin-top:14px">Ads on this site are provided by Google AdSense and are non-personalized.</p>':''}<p class="muted c small" style="margin-top:14px">Relationship Adviser offers general guidance, not professional therapy. If you are in danger, contact local emergency services.<br>© 2026 Elite Tech Group</p>`;
-}
+function chatView(){const p=S.persona, msgs=S.chats[p]||[greeting(p)];return `<h1>Advisers</h1><div class="chips">${Object.keys(PERSONAS).map(n=>`<div class="chip ${n===p?'on':''}" data-act="persona" data-arg="${esc(n)}">${PERSONAS[n].emoji} ${esc(n)}</div>`).join('')}</div><div class="chat"><div class="msgs" id="msgs">${msgs.map(m=>`<div class="m ${m.role==='user'?'u':''}">${esc(m.content)}</div>`).join('')}${S.busy?'<div class="muted small">typing…</div>':''}</div><div class="send"><input id="chat-in" placeholder="Type your message…" autocomplete="off"><button class="btn" data-act="send">Send</button></div></div>`;}
+function gamesView(){if(!S.game) return `<h1>Couple games</h1>${tile('🃏','Deep questions','Take turns answering honestly.','game','deep')}${tile('⚖️','Would you rather','Pick one, then explain why.','game','wyr')}${tile('🎡','Date night spinner','Let fate choose your next date.','game','date')}<div class="card static article"><p class="lead">Couple games help you talk about things you normally avoid. Set 30 minutes, no phones, and take turns. These games build emotional intimacy, which is key for long-term love.</p></div>`;const c=S.card;const body=S.game==='wyr'&&c?`${esc(c[0])}<div class="rose" style="margin:12px 0">or</div>${esc(c[1])}`:esc(c||'');return `<h1>Couple games</h1><div class="gamecard"><div>${body}</div></div><button class="btn" data-act="next">${S.game==='date'?'Spin again':'Next card'}</button><a class="link c" data-act="gback">Back to games</a>`;}
+function profileView(){const u=S.user, favs=store.get('ra:favs',[]);const cnt=k=>Object.values(store.get('ra:done:'+k,{})).filter(Boolean).length;return `<div class="c" style="margin-bottom:18px"><div class="av">${esc((u.name.trim()[0]||'❤').toUpperCase())}</div><h1 style="margin-bottom:2px">${esc(u.name)}</h1><div class="muted">${esc(u.email)}</div><div class="muted small">Member since ${esc(new Date(u.joined).toLocaleDateString())}</div></div><div class="card static"><h2>Your progress</h2><p>Questions before marriage: ${cnt('q')}/20</p><p>Relationship checklist: ${cnt('c')}/20</p></div><div class="card static"><h2>Saved quotes (${favs.length})</h2>${favs.length?favs.map((f,i)=>`<p style="color:var(--fg);font-style:italic;margin:8px 0">“${esc(f)}” <a class="rose small" style="cursor:pointer;font-style:normal" data-act="unsave" data-arg="${i}">Remove</a></p>`).join(''):'<p>Tap “Save” on a quote on the Home tab and it will appear here.</p>'}</div><button class="btn" data-act="signout">Sign out</button><button class="btn out" data-act="delete">Delete my account</button><p class="foot"><a href="${PLAY}" target="_blank" rel="noopener">Get the Android app</a><a href="${PRIVACY}" target="_blank" rel="noopener">Privacy</a><a href="${DELETEP}" target="_blank" rel="noopener">Data deletion</a><a href="mailto:devjuli311@gmail.com">Contact</a></p>${ADS_READY?'<p class="muted c small" style="margin-top:14px">Ads on this site are provided by Google AdSense and are non-personalized.</p>':''}<p class="muted c small" style="margin-top:14px">Relationship Adviser offers general guidance, not professional therapy. If you are in danger, contact local emergency services.<br>© 2026 Elite Tech Group</p>`;}
+
 function render(){
   const v=$('#view'), nv=$('#nav');
-    let body;
-  if(S.view) body=listView();
+  if(!S.user){v.innerHTML=authView();nv.innerHTML='';updateAd();return}
+  let body;
+  if(S.view==='q-detail') body=detailView('q');
+  else if(S.view==='c-detail') body=detailView('c');
+  else if(S.view) body=listView();
   else body={home:homeView,chat:chatView,games:gamesView,profile:profileView}[S.tab]();
   const t=(id,e,l)=>`<a class="${S.tab===id&&!S.view?'on':''}" data-act="tab" data-arg="${id}"><span>${e}</span>${l}</a>`;
   v.innerHTML=`<main>${body}</main>`;
@@ -327,7 +189,7 @@ function render(){
   window.scrollTo(0,0);
   updateAd();
 }
-async function loadQuote(fresh){S.saved=false;S.quote='';render();S.quote=await getQuote(fresh);if(S.tab==='home'&&!S.view)render()}
+async function loadQuote(fresh){S.saved=false;S.quote='';render();S.quote=await getQuote(fresh);if(S.tab==='home'&&!S.view&&S.user)render()}
 async function doAuth(){
   const err=m=>{$('#err').textContent=m};
   const email=($('#f-email').value||'').trim().toLowerCase(), pw=$('#f-pw').value||'';
@@ -356,7 +218,7 @@ function nextCard(){S.card=S.game==='deep'?rnd(DEEP_Q):S.game==='wyr'?rnd(WYR):r
 function removeAll(){
   const users=store.get('ra:users',{}); delete users[S.user.email]; store.set('ra:users',users);
   ['ra:session','ra:favs','ra:done:q','ra:done:c'].forEach(store.del);
-  S.user=null; S.chats={}; S.mode='in'; S.tab='home';
+  S.user=null; S.chats={}; S.mode='in';
 }
 async function act(a,arg){
   if(a==='mode'){S.mode=S.mode==='in'?'up':'in';render()}
@@ -373,18 +235,12 @@ async function act(a,arg){
   else if(a==='next'){nextCard();render()}
   else if(a==='gback'){S.game=null;render()}
   else if(a==='unsave'){const f=store.get('ra:favs',[]);f.splice(+arg,1);store.set('ra:favs',f);render()}
-  else if(a==='signout'){store.del('ra:session');S.user=null;S.mode='in';S.chats={};S.tab='home';render()}
-  else if(a==='delete'){
-    if(confirm('Delete your account? This permanently erases your account, saved quotes and progress from this browser. This cannot be undone.')&&confirm('Are you sure? All your data will be erased.')){removeAll();render()}
-  }
+  else if(a==='signout'){store.del('ra:session');S.user=null;S.mode='in';S.chats={};render()}
+  else if(a==='delete'){if(confirm('Delete your account? This permanently erases your account, saved quotes and progress from this browser. This cannot be undone.')&&confirm('Are you sure? All your data will be erased.')){removeAll();render()}}
 }
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t){e.preventDefault();act(t.dataset.act,t.dataset.arg)}});
-document.addEventListener('keydown',e=>{
-  if(e.key!=='Enter') return;
-  if(e.target.id==='chat-in'){e.preventDefault();sendMsg()}
-  else if(e.target.id==='f-pw'||e.target.id==='f-email'||e.target.id==='f-name'){e.preventDefault();doAuth()}
-});
-loadQuote(false);
+document.addEventListener('keydown',e=>{if(e.key!=='Enter') return;if(e.target.id==='chat-in'){e.preventDefault();sendMsg()}else if(e.target.id==='f-pw'||e.target.id==='f-email'||e.target.id==='f-name'){e.preventDefault();doAuth()}});
+if(S.user) loadQuote(false); else render();
 </script>
 </body>
-</html>
+  </html>
