@@ -211,7 +211,7 @@ async function getQuote(fresh = false) {
 }
 
 // ===== GOOGLE ADSENSE SETTINGS (ads stay OFF until you fill these in) =====
-const ADS_ENABLED=true;                       // 1) set to true after AdSense approves your site
+const ADS_ENABLED=false;                       // 1) set to true after AdSense approves your site
 const ADSENSE_CLIENT='ca-pub-6906857406053446'; // 2) your AdSense publisher ID
 const ADSENSE_SLOT='0000000000';               // 3) your display ad unit's slot ID
 const ADS_TEST=false;                          // true = Google test ads while you check the layout
@@ -227,7 +227,7 @@ function loadAdsScript(){
 // One ad unit, shown only on content screens (Home, lists, Games). Never on sign-in, chat or profile.
 function updateAd(){
   const w=$('#adwrap'); if(!ADS_READY||!w) return;
-  const ok=!!S.user&&(!!S.view||S.tab==='home'||S.tab==='games');
+  const ok=(!!S.view||S.tab==='home'||S.tab==='games');
   w.hidden=!ok; if(!ok||adPushed) return;
   loadAdsScript(); adPushed=true;
   w.innerHTML='<div class="adlabel">Advertisement</div><ins class="adsbygoogle" style="display:block" data-ad-client="'+ADSENSE_CLIENT+'" data-ad-slot="'+ADSENSE_SLOT+'" data-ad-format="auto" data-full-width-responsive="true"'+(ADS_TEST?' data-adtest="on"':'')+'></ins>';
@@ -256,19 +256,19 @@ function tile(e,t,sub,act,arg){return `<div class="card" data-act="${act}" data-
 
 function authView(){
   const inn=S.mode==='in';
-  return `<main class="auth"><div class="muted c">Relationship Adviser</div><div class="bigheart">❤️</div>
-  <h1 class="c">${inn?'Welcome back':'Create your account'}</h1>
-  <p class="muted c" style="margin-bottom:22px">Advice for love, heartbreak and marriage, whenever you need it.</p>
+  return `<div class="auth"><div class="muted c">Relationship Adviser</div><div class="bigheart">❤️</div>
+  <h1 class="c">${inn?'Welcome back':'Create your profile'}</h1>
+  <p class="muted c" style="margin-bottom:22px">A profile is optional. Everything in the app works without one.</p>
   ${inn?'':'<input id="f-name" placeholder="Your name" autocomplete="name">'}
   <input id="f-email" type="email" placeholder="Email" autocomplete="email" autocapitalize="none">
   <input id="f-pw" type="password" placeholder="Password" autocomplete="${inn?'current-password':'new-password'}">
   <div id="err" class="err"></div>
   <button class="btn" data-act="auth">${inn?'Sign in':'Sign up'}</button>
   <a class="link c" data-act="mode">${inn?'New here? Create an account':'Have an account? Sign in'}</a>
-  <p class="muted c small" style="margin-top:22px">Your account is stored on this device only.</p></main>`;
+  <p class="muted c small" style="margin-top:22px">Your profile is stored on this device only.</p></div>`;
 }
 function homeView(){
-  return `<p class="muted">Hello, ${esc(S.user.name.split(' ')[0])}</p><h1>Love, with clarity</h1>
+  return `<p class="muted">${S.user?'Hello, '+esc(S.user.name.split(' ')[0]):'Welcome'}</p><h1>Love, with clarity</h1>
   <div class="quote"><div class="rose b">Today's quote</div><p class="qt">“${esc(S.quote||'…')}”</p>
   <div class="row"><a data-act="save">${S.saved?'❤️ Saved':'🤍 Save'}</a><a data-act="newq">✨ New quote</a></div></div>
   ${tile('💍','20 questions before marriage','Ask these before you say “I do”.','open','q')}
@@ -302,6 +302,7 @@ function gamesView(){
   <a class="link c" data-act="gback">Back to games</a>`;
 }
 function profileView(){
+  if(!S.user) return authView();
   const u=S.user, favs=store.get('ra:favs',[]);
   const cnt=k=>Object.values(store.get('ra:done:'+k,{})).filter(Boolean).length;
   return `<div class="c" style="margin-bottom:18px"><div class="av">${esc((u.name.trim()[0]||'❤').toUpperCase())}</div><h1 style="margin-bottom:2px">${esc(u.name)}</h1>
@@ -316,8 +317,7 @@ function profileView(){
 }
 function render(){
   const v=$('#view'), nv=$('#nav');
-  if(!S.user){v.innerHTML=authView();nv.innerHTML='';updateAd();return}
-  let body;
+    let body;
   if(S.view) body=listView();
   else body={home:homeView,chat:chatView,games:gamesView,profile:profileView}[S.tab]();
   const t=(id,e,l)=>`<a class="${S.tab===id&&!S.view?'on':''}" data-act="tab" data-arg="${id}"><span>${e}</span>${l}</a>`;
@@ -327,7 +327,7 @@ function render(){
   window.scrollTo(0,0);
   updateAd();
 }
-async function loadQuote(fresh){S.saved=false;S.quote='';render();S.quote=await getQuote(fresh);if(S.tab==='home'&&!S.view&&S.user)render()}
+async function loadQuote(fresh){S.saved=false;S.quote='';render();S.quote=await getQuote(fresh);if(S.tab==='home'&&!S.view)render()}
 async function doAuth(){
   const err=m=>{$('#err').textContent=m};
   const email=($('#f-email').value||'').trim().toLowerCase(), pw=$('#f-pw').value||'';
@@ -356,7 +356,7 @@ function nextCard(){S.card=S.game==='deep'?rnd(DEEP_Q):S.game==='wyr'?rnd(WYR):r
 function removeAll(){
   const users=store.get('ra:users',{}); delete users[S.user.email]; store.set('ra:users',users);
   ['ra:session','ra:favs','ra:done:q','ra:done:c'].forEach(store.del);
-  S.user=null; S.chats={}; S.mode='in';
+  S.user=null; S.chats={}; S.mode='in'; S.tab='home';
 }
 async function act(a,arg){
   if(a==='mode'){S.mode=S.mode==='in'?'up':'in';render()}
@@ -373,7 +373,7 @@ async function act(a,arg){
   else if(a==='next'){nextCard();render()}
   else if(a==='gback'){S.game=null;render()}
   else if(a==='unsave'){const f=store.get('ra:favs',[]);f.splice(+arg,1);store.set('ra:favs',f);render()}
-  else if(a==='signout'){store.del('ra:session');S.user=null;S.mode='in';S.chats={};render()}
+  else if(a==='signout'){store.del('ra:session');S.user=null;S.mode='in';S.chats={};S.tab='home';render()}
   else if(a==='delete'){
     if(confirm('Delete your account? This permanently erases your account, saved quotes and progress from this browser. This cannot be undone.')&&confirm('Are you sure? All your data will be erased.')){removeAll();render()}
   }
@@ -384,7 +384,7 @@ document.addEventListener('keydown',e=>{
   if(e.target.id==='chat-in'){e.preventDefault();sendMsg()}
   else if(e.target.id==='f-pw'||e.target.id==='f-email'||e.target.id==='f-name'){e.preventDefault();doAuth()}
 });
-if(S.user) loadQuote(false); else render();
+loadQuote(false);
 </script>
 </body>
 </html>
