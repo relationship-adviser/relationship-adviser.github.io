@@ -5,75 +5,117 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Relationship Adviser | Web App</title>
 <meta name="theme-color" content="#12030a">
-<!-- YOUR REAL ADSENSE ID - KEPT TRUE AS YOU ASKED -->
 <script>
-  const ADS_ENABLED = true; 
-  const ADSENSE_CLIENT = 'ca-pub-6906857406053446'; // your real ID, kept
-  const ADSENSE_SLOT = '0000000000'; // replace after approval with real slot
-  const ADS_TEST = true; // shows test placeholder until real slot
-  const ADS_READY = ADSENSE_CLIENT.startsWith('ca-pub-');
+  // KEPT AS YOU ASKED - DO NOT TURN FALSE
+  const ADS_ENABLED = true;
+  const ADSENSE_CLIENT = 'ca-pub-6906857406053446';
+  const ADSENSE_SLOT = '0000000000'; // replace with real slot after approval
+  const ADS_TEST = true;
+  const ADS_READY = ADSENSE_CLIENT.startsWith('ca-pub-') && ADSENSE_CLIENT.length > 10;
 </script>
-<!-- Add this AFTER approval: <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6906857406053446" crossorigin="anonymous"></script> -->
 <style>
-  /* ... keep your exact CSS from before ... */
-  body{background:#12030a;color:#fff;font-family:system-ui}
-  .auth-note{font-size:11px;color:#8a5a6a;text-align:center;margin-top:12px}
-  .guest-link{color:#ff8fab;text-align:center;display:block;margin-top:14px;font-size:13px;text-decoration:underline;cursor:pointer}
-  .ad-slot{background:#1e0e18;border:1px dashed #5a2a3a;border-radius:12px;padding:16px;text-align:center;color:#8a5a6a;font-size:12px;margin:16px}
-  .article p{font-size:14px;color:#c9a0b0;line-height:1.7;margin-bottom:12px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#12030a;color:#fff;min-height:100vh;padding-bottom:80px}
+.top{padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.card{background:#25101c;border-radius:16px;padding:16px;margin:12px 16px}
+.card h3{color:#ffb3c6;margin-bottom:8px}
+.card p{color:#c9a0b0;font-size:14px;line-height:1.6}
+.hero{background:#2a1220;border-radius:20px;padding:20px;margin:12px 16px}
+.hero h1{font-size:22px;margin-bottom:8px}
+.hero p{color:#d9a8b8;font-size:13px;line-height:1.5}
+.ad-slot{background:#1e0e18;border:1px dashed #5a2a3a;border-radius:12px;padding:18px;text-align:center;color:#8a5a6a;font-size:12px;margin:14px 16px}
+.q-item{background:#25101c;border-radius:12px;padding:14px;margin:10px 16px}
+.q-item b{color:#ff8fab}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a0a14;border-top:1px solid #2a1220;display:flex;justify-content:space-around;padding:10px 0}
+.nav-item{color:#6b4a5a;font-size:11px;text-decoration:none;text-align:center}
+.nav-item.active{color:#ff8fab}
+.auth{padding:24px 20px}
+.auth input{width:100%;padding:14px;border-radius:12px;background:#2a1220;border:0;color:#fff;margin-top:10px}
+.auth button{width:100%;padding:14px;border-radius:999px;background:#7a2a4a;color:#fff;border:0;margin-top:20px;font-weight:600}
+.auth-note{font-size:11px;color:#8a5a6a;text-align:center;margin-top:12px}
+.guest{color:#ff8fab;text-align:center;display:block;margin-top:14px;font-size:13px;text-decoration:underline;cursor:pointer}
 </style>
 </head>
 <body>
-<!-- YOUR APP SHELL -->
 
-<!-- HOME - NO LOGIN REQUIRED FOR ADSENSE -->
+<!-- HOME - ACCESSIBLE TO EVERYONE, NO LOGIN REQUIRED FOR ADSENSE -->
 <div id="homeView">
-  <!-- your quote + cards -->
-  <div class="article" style="padding:16px">
-    <h2>20 Questions Before Marriage - Full Guide</h2>
-    <!-- THIS IS THE 600+ WORDS PART - AdSense reads this -->
-    <p><b>1. Why do you want to get married?</b> Marriage built on pressure or age rarely lasts. Be honest if it's love, companionship, or fear of being alone. Your reason determines your resilience...</p>
-    <!-- repeat for all 20 with 40 words each = 800 words -->
-    <p>...full 20 questions with explanation...</p>
-    
-    <!-- Ad only on content, not on login -->
-    <div class="ad-slot" id="ad-home">AdSense - Home Content</div>
+  <div class="top"><b>Relationship Adviser</b><span onclick="showAuth()" style="color:#ff8fab;font-size:13px;cursor:pointer">Sign in</span></div>
+  
+  <div class="hero">
+    <h1>20 Questions Before Marriage - Full Guide</h1>
+    <p>Marriage is more than love. It is a lifetime partnership of finances, family, faith and daily habits. Before you say I do, you need clarity. These 20 questions are used by relationship coaches to help couples avoid divorce and build trust before marriage.</p>
   </div>
+
+  <div class="ad-slot">AdSense - Home Top (will show real ads after slot added)</div>
+
+  <div class="q-item"><b>1. Why do you want to get married?</b><br><p>Be honest. Is it love, companionship, age pressure, family pressure, or fear of being alone? A marriage built on timing rarely lasts. A marriage built on clarity and commitment survives hard seasons. Discuss your true reason.</p></div>
+  <div class="q-item"><b>2. How do you handle conflict?</b><br><p>Do you shout, go silent, leave the house, or talk calmly? Your conflict style today will be your conflict style in 10 years. Learn how to apologize, how long you need to cool off, and how you reconnect.</p></div>
+  <div class="q-item"><b>3. What about finances?</b><br><p>Will you have joint account, separate accounts, or both? How much debt do you have? What about savings, supporting parents, and spending habits? Money is the top reason couples fight. Agree now.</p></div>
+  <div class="q-item"><b>4. Do you want children and when?</b><br><p>This must be 100% aligned. Not we will see later. Discuss number of kids, when to start, parenting style, discipline, and what if you cannot have kids naturally. This question saves many marriages.</p></div>
+  <div class="q-item"><b>5. Where will you live?</b><br><p>City or village, near your family or far, rent or build, abroad or Nigeria? Location affects job, happiness, support system and cost of living. Don't assume you agree. Decide together.</p></div>
+
+  <div class="ad-slot">AdSense - In-Article (best earning position)</div>
+
+  <div class="q-item"><b>6. What are your career goals?</b><br><p>Will one person sacrifice career for family? How do you support promotions, business risks, or relocations? A supportive partner celebrates growth instead of feeling threatened by it.</p></div>
+  <div class="q-item"><b>7. What is your love language?</b><br><p>Some people need words of affirmation, some need physical touch, acts of service, quality time, or gifts. If you don't speak each other's language, you will feel unloved even when love exists.</p></div>
+  <div class="q-item"><b>8. How do you deal with in-laws and extended family?</b><br><p>Boundaries are critical. How often will family visit, who makes decisions in your home, how do you handle mother-in-law advice? Discuss this early to avoid third-party interference.</p></div>
+  <div class="q-item"><b>9. What are your views on religion and faith?</b><br><p>Will you attend same church or mosque? How will you raise children? What about prayer, fasting, tithes? Faith differences cause deep conflict if not discussed with respect.</p></div>
+  <div class="q-item"><b>10. What are your non-negotiables?</b><br><p>Cheating, physical abuse, emotional abuse, lying, addiction, porn, gambling — what ends the marriage for you? Say it clearly now, not after it happens. Boundaries create safety.</p></div>
+  <div class="q-item"><b>11. What is your health history?</b><br><p>Chronic illness, mental health, past trauma, genotype, blood group, and sexual health are not secrets to hide. Love needs truth to make informed decisions.</p></div>
+  <div class="q-item"><b>12. What did you learn from past relationships?</b><br><p>Past is not to judge, but to understand patterns. What went wrong before and what will you do differently? Healing before marriage prevents baggage.</p></div>
+  <div class="q-item"><b>13. What are your intimacy expectations?</b><br><p>Needs, boundaries, frequency, and how you handle rejection. Open honest conversation prevents cheating and resentment. Intimacy is emotional and physical.</p></div>
+  <div class="q-item"><b>14. Who does what at home?</b><br><p>Cooking, cleaning, laundry, bills, childcare. Roles based on ability and time, not just gender. A fair home is a peaceful home.</p></div>
+  <div class="q-item"><b>15. What about friends and social life?</b><br><p>How much time with friends, opposite-sex friendships, partying, social media? Social boundaries prevent jealousy and mistrust.</p></div>
+  <div class="q-item"><b>16. Is there anything you have not told me?</b><br><p>Secrets become bombs after marriage. Debts, child outside, criminal record, addiction. One honest talk now is better than 10 years of lies.</p></div>
+  <div class="q-item"><b>17. How will you keep love alive?</b><br><p>Love fades without effort. Date nights, vacations, learning new things together, checking in emotionally. How will you grow, not just survive?</p></div>
+  <div class="q-item"><b>18. How do you handle failure?</b><br><p>What if business fails, job lost, sickness comes? Will you blame or support? Marriage is tested in failure, not success.</p></div>
+  <div class="q-item"><b>19. How do you forgive?</b><br><p>How long do you stay angry? Do you bring up past mistakes? Forgiveness is a skill. Learn it before marriage, not after hurt.</p></div>
+  <div class="q-item"><b>20. Where do you see us in 10 years?</b><br><p>Vision brings unity. House, career, children, ministry, travel. If your 10-year visions don't align, your daily decisions will always clash.</p></div>
+
+  <div class="card" style="background:linear-gradient(135deg,#7a1e3a,#4a1230);text-align:center">
+    <h3>Confused about an answer?</h3>
+    <p style="color:#ffc2d1">Talk to our Love Coach — stored only on your device, private and local.</p>
+    <button onclick="showAuth()" style="background:#ff4d7a;width:100%;padding:12px;border-radius:999px;border:0;color:#fff;margin-top:10px">Talk to an Adviser</button>
+  </div>
+  <div class="ad-slot">AdSense - Bottom</div>
 </div>
 
-<!-- AUTH - LOCAL ONLY, AS IN YOUR SCREENSHOT -->
-<div id="authView" style="padding:20px">
-  <h3 style="text-align:center">Relationship Adviser</h3>
-  <div style="text-align:center;font-size:40px">❤️</div>
-  <h2 style="text-align:center">Welcome back</h2>
-  <p style="text-align:center;color:#8a6a7a;font-size:13px">Advice for love, heartbreak and marriage, whenever you need it.</p>
-  <input id="email" placeholder="Email" style="width:100%;margin-top:20px;padding:14px;border-radius:12px;background:#2a1220;border:0;color:#fff">
-  <input id="password" type="password" placeholder="Password" style="width:100%;margin-top:10px;padding:14px;border-radius:12px;background:#2a1220;border:0;color:#fff">
-  <button onclick="localSignIn()" style="width:100%;margin-top:20px;padding:14px;border-radius:999px;background:#7a2a4a;color:#fff;border:0">Sign in</button>
-  <span class="guest-link" onclick="showHome()">Continue as guest → read articles</span>
+<!-- AUTH - LOCAL ONLY AS IN YOUR SCREENSHOT -->
+<div id="authView" style="display:none" class="auth">
+  <div style="text-align:center"><div style="font-size:50px">❤️</div><p style="margin-top:6px">Relationship Adviser</p><h2 style="margin-top:12px">Welcome back</h2><p style="color:#8a6a7a;font-size:13px;margin-top:6px">Advice for love, heartbreak and marriage, whenever you need it.</p></div>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="localSignIn()">Sign in</button>
+  <span class="guest" onclick="showHome()">Continue as guest →</span>
+  <div style="text-align:center;margin-top:12px"><span style="color:#ff8fab;font-size:13px" onclick="localSignIn()">New here? Create an account</span></div>
   <div class="auth-note">Your profile is stored on this device only.</div>
-  <div style="text-align:center;margin-top:10px"><a style="color:#ff8fab;font-size:13px" onclick="localSignUp()">New here? Create an account</a></div>
+</div>
+
+<div class="bottom-nav">
+  <a class="nav-item active" onclick="showHome()"><span>🏠</span><br>Home</a>
+  <a class="nav-item" onclick="showAuth()"><span>💬</span><br>Advisers</a>
+  <a class="nav-item" onclick="showHome()"><span>🎲</span><br>Games</a>
+  <a class="nav-item" onclick="showAuth()"><span>👤</span><br>Profile</a>
 </div>
 
 <script>
 function localSignIn(){
-  const email = document.getElementById('email').value;
+  const email=document.getElementById('email').value.trim();
   if(!email) return alert('Enter email');
-  localStorage.setItem('ra_user', JSON.stringify({email:email, deviceOnly:true}));
+  localStorage.setItem('ra_user', JSON.stringify({email:email, ts:Date.now(), deviceOnly:true}));
   showHome();
 }
-function localSignUp(){ localSignIn(); }
-// No backend, data stays on device
-function showHome(){ document.getElementById('homeView').style.display='block'; document.getElementById('authView').style.display='none'; }
-function showAuth(){ document.getElementById('homeView').style.display='none'; document.getElementById('authView').style.display='block'; }
-
-// On load - allow guest to see content for AdSense bot
-const saved = localStorage.getItem('ra_user');
-if(!saved){
-  showHome(); // <-- IMPORTANT: AdSense bot sees home without login
-} else {
-  showHome();
+function showHome(){
+  document.getElementById('homeView').style.display='block';
+  document.getElementById('authView').style.display='none';
 }
+function showAuth(){
+  document.getElementById('homeView').style.display='none';
+  document.getElementById('authView').style.display='block';
+}
+// Default = Home for guest and for AdSense bot, keeps web app accessible to everyone
+showHome();
 </script>
 </body>
-      </html>
+</html>
